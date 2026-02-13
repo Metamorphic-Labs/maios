@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, WebSocket
 
-from maios.api.routes import agents, health, projects
+from maios.api.routes import agents, health, health_detailed, projects
 from maios.api.websocket import websocket_endpoint
 from maios.core.config import settings
 from maios.core.database import close_db, init_db
@@ -30,6 +30,7 @@ app = FastAPI(
 
 # Include routers
 app.include_router(health.router, tags=["health"])
+app.include_router(health_detailed.router, tags=["health"])
 app.include_router(projects.router, tags=["projects"])
 app.include_router(agents.router, tags=["agents"])
 
