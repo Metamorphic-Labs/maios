@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from maios.api.routes import health, projects
+from maios.api.routes import agents, health, projects
 from maios.core.config import settings
 from maios.core.database import close_db, init_db
 from maios.core.redis import close_redis
@@ -30,6 +30,7 @@ app = FastAPI(
 # Include routers
 app.include_router(health.router, tags=["health"])
 app.include_router(projects.router, tags=["projects"])
+app.include_router(agents.router, tags=["agents"])
 
 
 @app.get("/")
