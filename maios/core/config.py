@@ -31,6 +31,13 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     access_token_expire_minutes: int = 30
 
+    # Heartbeat configuration
+    heartbeat_interval_minutes: int = 5
+    task_stalled_threshold_minutes: int = 30
+    task_long_running_threshold_minutes: int = 120
+    agent_silent_threshold_minutes: int = 15
+    agent_high_error_rate: float = 0.3
+
 
 # Global settings instance (lazy-loaded)
 _settings: Settings | None = None

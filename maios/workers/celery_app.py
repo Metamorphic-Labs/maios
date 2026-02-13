@@ -3,6 +3,7 @@ from celery import Celery
 from celery.schedules import crontab
 
 from maios.core.config import settings
+from maios.workers.heartbeat_config import heartbeat_config
 
 app = Celery(
     "maios",
@@ -28,11 +29,11 @@ app.conf.update(
     task_acks_late=True,
 )
 
-# Beat schedule for periodic tasks
+# Beat schedule for periodic tasks (uses configurable intervals)
 app.conf.beat_schedule = {
     "heartbeat-check": {
         "task": "maios.workers.heartbeat.run_health_checks",
-        "schedule": 300.0,  # Every 5 minutes
+        "schedule": heartbeat_config.interval_minutes * 60.0,  # Convert minutes to seconds
     },
     "daily-summary": {
         "task": "maios.workers.heartbeat.generate_daily_summary",

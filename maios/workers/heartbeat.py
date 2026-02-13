@@ -9,14 +9,15 @@ from celery import shared_task
 from sqlalchemy import func, select
 
 from maios.core.config import settings
+from maios.workers.heartbeat_config import heartbeat_config
 
 logger = logging.getLogger(__name__)
 
-# Default thresholds (can be overridden via config)
-TASK_STALLED_THRESHOLD_MINUTES = 30
-TASK_LONG_RUNNING_THRESHOLD_MINUTES = 120
-AGENT_SILENT_THRESHOLD_MINUTES = 15
-HIGH_ERROR_RATE_THRESHOLD = 0.3
+# Get thresholds from config
+TASK_STALLED_THRESHOLD_MINUTES = heartbeat_config.task_stalled_threshold
+TASK_LONG_RUNNING_THRESHOLD_MINUTES = heartbeat_config.task_long_running_threshold
+AGENT_SILENT_THRESHOLD_MINUTES = heartbeat_config.agent_silent_threshold
+HIGH_ERROR_RATE_THRESHOLD = heartbeat_config.agent_high_error_rate
 
 
 async def get_active_tasks():
