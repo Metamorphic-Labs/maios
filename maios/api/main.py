@@ -1,9 +1,10 @@
 # maios/api/main.py
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket
 
 from maios.api.routes import agents, health, projects
+from maios.api.websocket import websocket_endpoint
 from maios.core.config import settings
 from maios.core.database import close_db, init_db
 from maios.core.redis import close_redis
@@ -41,3 +42,8 @@ async def root():
         "version": "0.1.0",
         "status": "running",
     }
+
+
+@app.websocket("/ws")
+async def websocket_route(websocket: WebSocket):
+    await websocket_endpoint(websocket)
